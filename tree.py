@@ -1,11 +1,17 @@
+# Red-black Tree implemented in Python 3.x
 
+from node import *
+
+# Normal functions are used to check if there is a root in the tree and
+# to call the pair "private" _function, these two parts could be the same,
+# but are divided for organization purposes.
 
 class RedBlackTree:
     def __init__(self):
         self.root = None
 
     def __repr__(self):
-        if self.root == None:
+        if not self.root:
             return ''
         content = '\n'  # to hold final string
         cur_nodes = [self.root]  # all nodes at current level
@@ -32,7 +38,11 @@ class RedBlackTree:
 
                 if n.value != None:
                     buf = ' ' * int((5 - len(str(n.value))) / 2)
-                    cur_row += '%s%s%s' % (buf, str(n.value), buf) + sep
+                    if n.color == RED:
+                        cur_row += f'{buf)}{RED, str(n.value)}{buf}' + sep
+                    elif n.color == BLACK:
+                        cur_row += f'{buf)}{BLACK, str(n.value)}{buf}' + sep
+                        
                 else:
                     cur_row += ' ' * 5 + sep
 
@@ -81,12 +91,40 @@ class RedBlackTree:
 
     def remove(self):
         pass
+        
+    def height(self):
+        if not self.root:
+            return self._height(self.root, 0)
+        else:
+            return 0
+
+    def _height(self, cur_node, cur_height):
+        if not cur_node:
+            return cur_height
+        left_height=self._height(cur_node.left, cur_height + 1)
+        right_height=self._height(cur_node.right, cur_height + 1)
+        return max(left_height,right_height)
 
     def black_height(self):
-        pass
+        if not self.root:
+            return self._black_height(self.root, 0)
+        else:
+            return 0
+            
+    # Black Height has a similar concept of the commom Height, the difference is that it only counts the black nodes.
+    def _black_height(self, cur_node, cur_black_height):
+        if not cur_node:
+            return cur_black_height
 
-    def _black_height(self):
-        pass
+        # If the node's color is black, the function increments it's black_height.
+        if cur_node.color = BLACK
+            left_height=self._black_height(cur_node.left, cur_height + 1)
+            right_height=self._black_height(cur_node.right, cur_height + 1)
+        # If the node's color is red, the function goes on to the next node without changing it's black_height.
+        else:
+            left_height=self._black_height(cur_node.left, cur_height)
+            right_height=self._black_height(cur_node.right, cur_height)
+        return max(left_black_height, right_black_height)
 
     def find(self):
         pass
