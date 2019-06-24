@@ -2,8 +2,8 @@
 
 from node import *
 
-# Normal functions are used to check if there is a root in the tree and
-# to call the pair "private" _function, these two parts could be the same,
+# Usual functions are used to check if there is a root in the tree
+# and to call their pair "private" _function. Those two parts could be brought together,
 # but are divided for organization purposes.
 
 class RedBlackTree:

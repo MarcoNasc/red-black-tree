@@ -1,4 +1,4 @@
-# red-black-tree
+## Red-Black Tree
 Final Project for my Data Structures class at the Federal University of Pará, Brazil.
-Assignment was to apply one of the studied structures or to implement some more complex one.
-I chose to implement in Python the Red-Black Tree structure.
+The assignment was to apply one of the studied structures in some small project or to implement a more complex structure.
+I chose to implement, in Python, the structure known as Red-Black Tree.
