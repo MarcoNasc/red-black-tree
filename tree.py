@@ -1,4 +1,4 @@
-## Red-black Tree implemented in Python 3.x
+# Red-black Tree implemented in Python 3.x
 
 from node import *
 
@@ -15,7 +15,7 @@ class RedBlackTree:
             return ''
         content = '\n'  # to hold final string
         cur_nodes = [self.root]  # all nodes at current level
-        cur_height = self.root.height  # height of nodes at current level
+        cur_height = self.height(self.root)  # height of nodes at current level
         sep = ' ' * (2 ** (cur_height - 1))  # variable sized separator between elements
         while True:
             cur_height += -1  # decrement current height
@@ -36,25 +36,27 @@ class RedBlackTree:
                     next_nodes.extend([None, None])
                     continue
 
-                if n.value != None:
+                if n.value:
                     buf = ' ' * int((5 - len(str(n.value))) / 2)
                     if n.color == RED:
-                        cur_row += f'{buf}{RED, str(n.value)}{buf}' + sep
+                        # cur_row += f"{buf}{RED, str(n.value)}{buf}" + sep
+                        cur_row += '%s%s%s'%(buf, RED+str(n.value),buf)+sep
                     elif n.color == BLACK:
-                        cur_row += f'{buf}{BLACK, str(n.value)}{buf}' + sep
-                        
+                        # cur_row += f"{buf}{BLACK, str(n.value)}{buf}" + sep
+                        cur_row+='%s%s%s'%(buf, BLACK+str(n.value),buf)+sep
+
                 else:
                     cur_row += ' ' * 5 + sep
 
-                if n.left_child != None:
-                    next_nodes.append(n.left_child)
+                if n.left:
+                    next_nodes.append(n.left)
                     next_row += ' /' + sep
                 else:
                     next_row += '  ' + sep
                     next_nodes.append(None)
 
-                if n.right_child != None:
-                    next_nodes.append(n.right_child)
+                if n.right:
+                    next_nodes.append(n.right)
                     next_row += '\ ' + sep
                 else:
                     next_row += '  ' + sep
@@ -98,7 +100,7 @@ class RedBlackTree:
     def _remove(self):
         pass    
         
-    def height(self):
+    def height(self, node):
         if self.root:
             return self._height(self.root, 0)
         else:
@@ -123,7 +125,7 @@ class RedBlackTree:
             return cur_black_height
 
         # If the node's color is black, the function increments it's black_height.
-        if cur_node.color = BLACK
+        if cur_node.color == BLACK:
             left_height=self._black_height(cur_node.left, cur_height + 1)
             right_height=self._black_height(cur_node.right, cur_height + 1)
         # If the node's color is red, the function goes on to the next node without changing it's black_height.
@@ -139,7 +141,7 @@ class RedBlackTree:
             raise EmptyTreeError('The tree is empty! Try again after inserting some values in it.')
 
     def _find(self, value):
-
+        pass
 
     def search(self):
         pass
@@ -161,4 +163,6 @@ class RedBlackTree:
 
     def _right_rotation(self):
         pass
+
+a = RedBlackTree()
 
