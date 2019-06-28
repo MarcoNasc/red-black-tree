@@ -1,4 +1,4 @@
-# Red-black Tree implemented in Python 3.x
+ Red-black Tree implemented in Python 3.x
 
 # The possible Node colors
 BLACK = 'BLACK'
@@ -35,6 +35,10 @@ class Node:
 			A Node object.
 		"""
         assert isinstance(value, int), "Value must be an integer!"
+        """
+        The purpose of this class is to be only used inside of our red-black tree, as it will be automatically instanciated inside it's functions as needed, 
+        thus we assert that the node must have a parent. As a result of that choice, we won't be able to instanciate the class outside of the tree structure. 
+        """
         assert isinstance(parent, Node), "Parent must be a Node!"
         assert color == BLACK or color == RED, "Sorry, invalid color!"
         self.value  = value
