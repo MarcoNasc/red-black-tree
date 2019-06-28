@@ -1,8 +1,9 @@
- Red-black Tree implemented in Python 3.x
+ # Red-black Tree implemented in Python 3.x
 
 # The possible Node colors
 BLACK = 'BLACK'
 RED = 'RED'
+NIL = 'NIL'
 colors = [BLACK, RED]
 
 
@@ -37,9 +38,9 @@ class Node:
         assert isinstance(value, int), "Value must be an integer!"
         """
         The purpose of this class is to be only used inside of our red-black tree, as it will be automatically instanciated inside it's functions as needed, 
-        thus we assert that the node must have a parent. As a result of that choice, we won't be able to instanciate the class outside of the tree structure. 
+        thus we assert that the node mnust have a parent. As a result of that choice, we won't be able to instanciate the class outside of the tree structure. 
         """
-        assert isinstance(parent, Node), "Parent must be a Node!"
+        # assert isinstance(parent, Node), "Parent must be a Node!"
         assert color == BLACK or color == RED, "Sorry, invalid color!"
         self.value  = value
         self.color  = color
@@ -62,11 +63,11 @@ class Node:
 			The representation of the Node object, containing the aforementioned characteristics.
 		"""
         if not self.left and not self.right:
-            return f'Node has value {self.value} and is {self.color}.\nHas no chidren and {self.parent} as parent node.'
+            return 'Node has value {self.value} and is {self.color}.\nHas no chidren and {self.parent} as parent node.'.format(self.value, self.color, self.color)
         elif self.left and not self.right:
-            return f'Node has value {self.value} and is {self.color}.\nHas {self.left} as left child and {self.parent} as parent node.'
+            return 'Node has value {self.value} and is {self.color}.\nHas {self.left} as left child and {self.parent} as parent node.'.format(self.value, self.color, self.left, self.color)
         elif not self.left and self.right:
-            return f'Node has value {self.value} and is {self.color}.\nHas {self.right} as right child and {self.parent} as parent node.'
+            return 'Node has value {self.value} and is {self.color}.\nHas {self.right} as right child and {self.parent} as parent node.'.format(self.value, self.color, self.right, self.color)
         else:
-            return f'Node has value {self.value} and is {self.color}.\nHas two children, {self.left} and {self.right} as left and right child, respectively, and also {self.parent} as parent node.'
+            return 'Node has value {self.value} and is {self.color}.\nHas two children, {self.left} and {self.right} as left and right child, respectively, and also {self.parent} as parent node.'.format(self.value, self.color, self.left, self.right, self.color)
 
