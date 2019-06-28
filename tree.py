@@ -1,4 +1,4 @@
-# Red-black Tree implemented in Python 3.x
+## Red-black Tree implemented in Python 3.x
 
 from node import *
 
@@ -39,9 +39,9 @@ class RedBlackTree:
                 if n.value != None:
                     buf = ' ' * int((5 - len(str(n.value))) / 2)
                     if n.color == RED:
-                        cur_row += f'{buf)}{RED, str(n.value)}{buf}' + sep
+                        cur_row += f'{buf}{RED, str(n.value)}{buf}' + sep
                     elif n.color == BLACK:
-                        cur_row += f'{buf)}{BLACK, str(n.value)}{buf}' + sep
+                        cur_row += f'{buf}{BLACK, str(n.value)}{buf}' + sep
                         
                 else:
                     cur_row += ' ' * 5 + sep
@@ -87,16 +87,22 @@ class RedBlackTree:
                 self._insert(value, parent_node.right)
 
         else:
-            print('Value already in tree, try another!')
+            raise DuplicateValueError('Value already in tree, try another one!')
 
-    def remove(self):
-        pass
+    def remove(self, value):
+        if self.root:
+            return _remove(self.find(value))
+        else:
+            raise EmptyTreeError('The tree is empty! Try again after inserting some values in it.')
+
+    def _remove(self):
+        pass    
         
     def height(self):
-        if not self.root:
+        if self.root:
             return self._height(self.root, 0)
         else:
-            return 0
+            raise EmptyTreeError('The tree is empty! Try again after inserting some values in it.')
 
     def _height(self, cur_node, cur_height):
         if not cur_node:
@@ -106,10 +112,10 @@ class RedBlackTree:
         return max(left_height,right_height)
 
     def black_height(self):
-        if not self.root:
+        if self.root:
             return self._black_height(self.root, 0)
         else:
-            return 0
+            raise EmptyTreeError('The tree is empty! Try again after inserting some values in it.')
             
     # Black Height has a similar concept of the commom Height, the difference is that it only counts the black nodes.
     def _black_height(self, cur_node, cur_black_height):
@@ -126,13 +132,16 @@ class RedBlackTree:
             right_height=self._black_height(cur_node.right, cur_height)
         return max(left_black_height, right_black_height)
 
-    def find(self):
-        pass
+    def find(self, value):
+        if self.root:
+            return _find(value)
+        else:
+            raise EmptyTreeError('The tree is empty! Try again after inserting some values in it.')
 
-    def _find(self):
-        pass
+    def _find(self, value):
 
-    def search(self):]
+
+    def search(self):
         pass
 
     def _search(self):
@@ -152,5 +161,4 @@ class RedBlackTree:
 
     def _right_rotation(self):
         pass
-
 
