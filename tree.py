@@ -14,7 +14,7 @@ class RedBlackTree:
     # class ValueError(Exception):
     #     '''Raise when any operation other than insertion is attempted, if the tree is empty'''
     #     pass
-
+    NIL_LEAF = Node(value=None, color=BLACK, parent=None)
 
     def __init__(self):
         """
@@ -93,22 +93,24 @@ class RedBlackTree:
 
     def insert(self, value):
         if not self.root:
-            self.root = Node(value, color=BLACK, parent=None)
+            self.root = Node(value, color=BLACK, parent=self.NIL_LEAF, left=self.NIL_LEAF, right=self.NIL_LEAF)
         else:
             self._insert(value, self.root)
 
     def _insert(self, value, parent_node):
         if value < parent_node.value:
             if not parent_node.left:
-                parent_node.left = Node(value, color=RED, parent=parent_node)
-            #    self._inspect_insertion(parent_node.left)
+                parent_node.left = Node(value, color=RED, parent=parent_node, left=self.NIL_LEAF, right=self.NIL_LEAF)
+            #   self._inspect_insertion(parent_node.left)
+            #   self._rebalance(parent.node.left)
             else:
                 self._insert(value, parent_node.left)
 
         elif value > parent_node.value:
             if not parent_node.right:
-                parent_node.right = Node(value, color=RED, parent=parent_node)
+                parent_node.right = Node(value, color=RED, parent=parent_node, left=self.NIL_LEAF, right=self.NIL_LEAF)
             #    self._inspect_insertion(parent_node.right)
+            #   self._rebalance(parent.node.left)
             else:
                 self._insert(value, parent_node.right)
 
@@ -198,11 +200,37 @@ class RedBlackTree:
     def _rebalance_node(self, z, y, x):
         pass
 
-    def _left_rotation(self):
-        pass
+    def _left_rotation(self, node):
+        other_node = node.right
+        node.right = other_node.left
+        if other_node.left != self.NIL_LEAF:
+            other_node.left.parent = node
+        if node.parent == self.NIL_LEAF:
+            self.root = other_node
+        elif node == node.parent.left:
+            node.parent.left = other_node
+        else:
+            node.parent.right = other_node
+        other_node.left = node
+        node.parent = other_node        
 
-    def _right_rotation(self):
-        pass
+    def _right_rotation(self, node):
+        other_node = node.left
+        node.left = other_node.right
+        if other_node.right != self.NIL_LEAF:
+            other_node.right.parent = node
+        if node.parent == self.NIL_LEAF:
+            self.root = other_node
+        elif node == node.parent.right:
+            node.parent.right = other_node
+        else:
+            node.parent.left = other_node
+        other_node.right = node
+        node.parent = other_node
+
+        
+
+        
 
 a = RedBlackTree()
 

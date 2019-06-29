@@ -4,7 +4,7 @@
 BLACK = 'BLACK'
 RED = 'RED'
 NIL = 'NIL'
-colors = [BLACK, RED]
+colors = [BLACK, RED, NIL]
 
 
 class Node:
@@ -41,7 +41,7 @@ class Node:
         thus we assert that the node mnust have a parent. As a result of that choice, we won't be able to instanciate the class outside of the tree structure. 
         """
         # assert isinstance(parent, Node), "Parent must be a Node!"
-        assert color == BLACK or color == RED, "Sorry, invalid color!"
+        assert color in colors, "Sorry, invalid color!"
         self.value  = value
         self.color  = color
         self.parent = parent
