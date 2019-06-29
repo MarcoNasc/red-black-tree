@@ -23,7 +23,7 @@ class Node:
 		value : int
 			The value assigned to the Node object. If not an integer, it will raise an AssertionError and give a message explaining the problem.
 		color : str
-			The Node's color. The Node will be always be initialized as having the color RED in the _insert function. AssertionError wil be raised if given
+			The Node color. The Node will be always be initialized as having the color RED in the insert() function. AssertionError wil be raised if given
         a color different from the two possible ones.
 		parent : Node
 			The parent Node. An AssertionError will be raised if an object of another type is provided.

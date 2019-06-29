@@ -5,33 +5,9 @@ from node import *
 # Usual functions are used to check if there is a root in the tree
 # and to call their pair "private" _function. Those two parts could be brought together,
 # but are divided for organization purposes.
-    
+
 class RedBlackTree:
-    
-    # class DuplicateValueError(Exception):
-    #     '''Raise when a certain value is to be inserted, but is already in tree.'''
-    #     pass
-    # class ValueError(Exception):
-    #     '''Raise when any operation other than insertion is attempted, if the tree is empty'''
-    #     pass
-
-
     def __init__(self):
-        """
-        Class builder.
-
-		Parameters
-		----------
-		self : RedBlackTree
-			A RedBlackTree object.
-            The tree is initialized empty at first, without a root. The first call to the insert() function will set the root of the tree.
-        ------
-        root : Node (default = None)
-            The tree is initialized empty at first, without a root. The first call to the insert() function will set the root of the tree.
-        ------
-		RedBlackTree
-			A RedBlackTree object.
-		"""
         self.root = None
 
     def __repr__(self):
@@ -113,13 +89,13 @@ class RedBlackTree:
                 self._insert(value, parent_node.right)
 
         else:
-            raise ValueError('Value already in tree, try another one!')
+            raise DuplicateValueError('Value already in tree, try another one!')
 
     def remove(self, value):
         if self.root:
             return _remove(self.find(value))
         else:
-            raise ValueError('The tree is empty! Try again after inserting some values in it.')
+            raise EmptyTreeError('The tree is empty! Try again after inserting some values in it.')
 
     def _remove(self):
         pass    
@@ -128,7 +104,7 @@ class RedBlackTree:
         if self.root:
             return self._height(self.root, 0)
         else:
-            raise ValueError('The tree is empty! Try again after inserting some values in it.')
+            raise EmptyTreeError('The tree is empty! Try again after inserting some values in it.')
 
     def _height(self, cur_node, cur_height):
         if not cur_node:
@@ -141,8 +117,9 @@ class RedBlackTree:
         if self.root:
             return self._black_height(self.root, 0)
         else:
-            raise ValueError('The tree is empty! Try again after inserting some values in it.')
+            raise EmptyTreeError('The tree is empty! Try again after inserting some values in it.')
             
+    # Black Height has a similar concept of the commom Height, the difference is that it only counts the black nodes.
     def _black_height(self, cur_node, cur_black_height):
         if not cur_node:
             return cur_black_height
@@ -157,37 +134,20 @@ class RedBlackTree:
             right_height=self._black_height(cur_node.right, cur_height)
         return max(left_black_height, right_black_height)
 
-    def find(self, value, cur_node=self.root):
+    def find(self, value):
         if self.root:
             return _find(value)
         else:
-            raise ValueError('The tree is empty! Try again after inserting some values in it.')
+            raise EmptyTreeError('The tree is empty! Try again after inserting some values in it.')
 
-    def _find(self, value, cur_node=self.root):
-        if value == cur_node.value:
-            return cur_node
-        elif value < cur_node.value and cur_node.left:
-            return self._find(value, cur_node.left)
-        elif value >  cur_node.value and cur_node.right:
-            return self._find(value, cur_node)
-        else:
-            print('Sorry, value not found!')
+    def _find(self, value):
+        pass
 
-    def search(self, value):
-        if self.root:
-            return self._search(value)
-        else:
-            return ValueError('The tree is empty! Try again after inserting some values in it.')
+    def search(self):
+        pass
 
-    def _search(self, value, cur_node=self.root):
-        if value == self.root.value:
-            return True
-        elif value < cur_node.value and cur_node.left:
-            return self._search(value, cur_node.left)
-        elif value >  cur_node.value and cur_node.right:
-            return self._search(value, cur_node)
-        else:
-            return False
+    def _search(self):
+        pass
 
     def _inspect_insertion(self, cur_node, path=[]):
         pass
