@@ -32,10 +32,10 @@ class RedBlackTree:
 		RedBlackTree
 			A RedBlackTree object.
 		"""
-        self.root = None
+        self.root = self.NIL_LEAF
 
     def __repr__(self):
-        if not self.root:
+        if self.root == self.NIL_LEAF:
             return ''
         content = '\n'  # to hold final string
         cur_nodes = [self.root]  # all nodes at current level
@@ -92,7 +92,7 @@ class RedBlackTree:
         return content
 
     def insert(self, value):
-        if not self.root:
+        if self.root == self.NIL_LEAF:
             self.root = Node(value, color=BLACK, parent=self.NIL_LEAF, left=self.NIL_LEAF, right=self.NIL_LEAF)
         else:
             self._insert(value, self.root)
@@ -101,16 +101,14 @@ class RedBlackTree:
         if value < parent_node.value:
             if not parent_node.left:
                 parent_node.left = Node(value, color=RED, parent=parent_node, left=self.NIL_LEAF, right=self.NIL_LEAF)
-            #   self._inspect_insertion(parent_node.left)
-            #   self._rebalance(parent.node.left)
+                self._rebalance_node(parent_node.left)
             else:
                 self._insert(value, parent_node.left)
 
         elif value > parent_node.value:
             if not parent_node.right:
                 parent_node.right = Node(value, color=RED, parent=parent_node, left=self.NIL_LEAF, right=self.NIL_LEAF)
-            #    self._inspect_insertion(parent_node.right)
-            #   self._rebalance(parent.node.left)
+                self._rebalance_node(parent_node.left)
             else:
                 self._insert(value, parent_node.right)
 
@@ -194,13 +192,42 @@ class RedBlackTree:
     def _inspect_insertion(self, cur_node, path=[]):
         pass
 
-    def _inspect_deletion(self, cur_node):
+    def _inspect_removal(self, cur_node):
         pass
 
-    def _rebalance_node(self, z, y, x):
-        pass
+    def _rebalance_node(self, node):  
+        while node.parent.color == RED:
+            if node.parent == node.parent.parent.left:
+                y = node.parent.parent.right
+                if y.color == RED:
+                    node.parent.color = BLACK                           # case 1
+                    y.color = BLACK                                     # case 1
+                    node.parent.parent.color = RED                      # case 1
+                    node = node.parent.parent                           # case 1
+                elif node == node.parent.right:
+                        node = node.parent                              # case 2
+                        _left_rotate(self, node)                        # case 2
+                else:                                               
+                        node.parent.color = BLACK                       # case 3
+                        node.parent.parent.color = RED                  # case 3
+                        _right_rotate(self, node.parent.parent)         # case 3
+            else: # same thing but with 'right' and 'left' exchanged
+                y = node.parent.parent.left
+                if y.color == RED:
+                    node.parent.color = BLACK                           # case 1
+                    y.color = BLACK                                     # case 1
+                    node.parent.parent.color = RED                      # case 1
+                    node = node.parent.parent                           # case 1
+                elif node == node.parent.left:
+                        node = node.parent                              # case 2
+                        _right_rotate(self, node)                       # case 2
+                else:                    
+                        node.parent.color = BLACK                       # case 3
+                        node.parent.parent.color = RED                  # case 3
+                        _left_rotate(self, node.parent.parent)          # case 3
+        self.root.color = BLACK
 
-    def _left_rotation(self, node):
+    def _left_rotate(self, node):
         other_node = node.right
         node.right = other_node.left
         if other_node.left != self.NIL_LEAF:
@@ -214,7 +241,7 @@ class RedBlackTree:
         other_node.left = node
         node.parent = other_node        
 
-    def _right_rotation(self, node):
+    def _right_rotate(self, node):
         other_node = node.left
         node.left = other_node.right
         if other_node.right != self.NIL_LEAF:
