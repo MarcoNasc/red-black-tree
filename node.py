@@ -89,7 +89,7 @@ class Node:
 
 
         """
-        # for python versions that don't accept fstrings.
+        # for python versions that don't accept fstrings, < v3.5
         if not self.left and not self.right:
             return 'Node has value {} and is {}.\nHas no chidren and {} as parent node.'.format(self.value, self.color, self.parent.value)
         elif self.left and not self.right:

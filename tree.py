@@ -149,14 +149,123 @@ class RedBlackTree:
             self.root.color = BLACK
             print(self)
 
-    def remove(self, value):
+    def delete(self, value):
         if self.root:
-            return _remove(self.find(value))
+            return _delete(self.find(value))
         else:
             raise ValueError('The tree is empty! Try again after inserting some values in it.')
 
-    def _remove(self):
-        pass    
+    def _delete(self, node):
+        other_node = node
+        other_node_original_color = other_node.color
+        if not node.left:
+            third_node = node.right
+            self._transplant(node, node.right)
+        elif not node.right:
+            third_node = node.left
+            self._transplant(node, node.left)
+        else:
+            other_node == self._minimum_node(node.right)
+            other_node_original_color = other_node.color
+            third_node = other_node.right
+            if other_node.parent == node:
+                third_node.parent = other_node
+            else:
+                self._transplant(other_node, other_node.right)
+                other_node.right = node.right
+                other_node.right.parent = other_node
+            self._transplant(node, other_node)
+            other_node.left = node.left
+            other_node.left.parent = other_node
+            other_node.color = node.color
+        if other_node_original_color == BLACK:
+            self._fixup_deletion(third_node)
+        print(self)
+
+
+    def _fixup_deletion(self, node):
+        while node != self.root and node.color == BLACK:
+            if node == node.parent.left:
+                other_node = node.parent.right
+                if other_node.color == RED:
+                    other_node.color == BLACK
+                    node.parent.color = RED
+                    self._left_rotate(node.parent)
+                if other_node.left.color == BLACK and other_node.right.color == BLACK:
+                    other_node.color = RED
+                    node = node.parent
+                else:
+                    if other_node.right.color == BLACK:
+                        other_node.left.color == BLACK
+                        other_node.color == RED
+                        self._right_rotate(other_node)
+                    other_node.color = node.parent.color
+                    node.parent.color = BLACK
+                    other_node.right.color = BLACK
+                    self._left_rotate(node.parent)
+                    node = self.root
+            else:
+                other_node = node.parent.left
+                if other_node.color == RED:
+                    other_node.color == BLACK
+                    node.parent.color = RED
+                    self._right_rotate(node.parent)
+                if other_node.right.color == BLACK and other_node.left.color == BLACK:
+                    other_node.color = RED
+                    node = node.parent
+                else:
+                    if other_node.left.color == BLACK:
+                        other_node.right.color == BLACK
+                        other_node.color == RED
+                        self._left_rotate(other_node)
+                    other_node.color = node.parent.color
+                    node.parent.color = BLACK
+                    other_node.left.color = BLACK
+                    self._right_rotate(node.parent)
+                    node = self.root
+        node.color = BLACK
+
+
+    def _transplant(self, node, other_node):
+        if not node.parent:
+            self.root = other_node
+        elif node == node.parent.left:
+            node.parent.left = other_node
+        else:
+            node.parent.right = other_node
+        other_node.parent = node.parent
+
+    def maximum(self):
+        if self.root:
+            return self._maximum(self.root)
+        else:
+            raise ValueError('The tree is empty! Try again after inserting some values in it.')
+
+    def _maximum(self, node):
+        while node.right:
+            node = node.right
+        return node.value
+
+    def minimum(self):
+        if self.root:
+            return self._minimum(self.root)
+        else:
+            raise ValueError('The tree is empty! Try again after inserting some values in it.')
+
+    def _minimum(self, node):
+        while node.left:
+            node = node.left
+        return node.value
+
+    def _mininum_node(self, node):
+        while node.left:
+            node = node.left
+        return node
+
+    def _maximum_node(self, node):
+        while node.right:
+            node = node.right
+        return node
         
     def height(self, node):
         if self.root:
@@ -167,9 +276,9 @@ class RedBlackTree:
     def _height(self, cur_node, cur_height):
         if not cur_node:
             return cur_height
-        left_height=self._height(cur_node.left, cur_height + 1)
-        right_height=self._height(cur_node.right, cur_height + 1)
-        return max(left_height,right_height)
+        left_height = self._height(cur_node.left, cur_height + 1)
+        right_height = self._height(cur_node.right, cur_height + 1)
+        return max(left_height, right_height)
 
     def black_height(self, node):
         if self.root:
@@ -183,12 +292,12 @@ class RedBlackTree:
 
         # If the node's color is black, the function increments it's black_height.
         if cur_node.color == BLACK:
-            left_black_height=self._black_height(cur_node.left, cur_black_height + 1)
-            right_black_height=self._black_height(cur_node.right, cur_black_height + 1)
+            left_black_height = self._black_height(cur_node.left, cur_black_height + 1)
+            right_black_height = self._black_height(cur_node.right, cur_black_height + 1)
         # If the node's color is red, the function goes on to the next node without changing it's black_height.
         else:
-            left_black_height=self._black_height(cur_node.left, cur_black_height)
-            right_black_height=self._black_height(cur_node.right, cur_black_height)
+            left_black_height = self._black_height(cur_node.left, cur_black_height)
+            right_black_height = self._black_height(cur_node.right, cur_black_height)
         return max(left_black_height, right_black_height)
 
     def find(self, value):
@@ -224,7 +333,6 @@ class RedBlackTree:
             return self._search(value, cur_node)
         else:
             return False
-    
 
     def _left_rotate(self, node):
         other_node = node.right
@@ -259,6 +367,3 @@ class RedBlackTree:
         
 
 a = RedBlackTree()
-a.insert(20)
-a.insert(10)
-
