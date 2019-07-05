@@ -1,4 +1,2 @@
-## Red-Black Tree
-Final Project for my Data Structures class at the Federal University of Pará, Brazil.
-The assignment was to apply one of the studied structures in some small project or to implement a more complex structure.
-I chose to implement, in Python, the structure known as Red-Black Tree.
+## Árvore Rubro-Negra
+### Esse é o meu projeto final para a disciplina Projeto de Algoritmos I, equivalente a disciplina de Estruturas de Dados, na Universidade Federal do Pará. As opções eram ou aplicar uma das estruturas estudadas em sala de aula em algum pequeno projeto, ou implementar alguma estrurua mais complexa fora do conteúdo ministrado. Eu escolhi implementar, em Python, a estrutura conhecida como Árvore Rubro-Negra.
