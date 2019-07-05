@@ -34,19 +34,32 @@ class Node:
 		Node
 			A Node object.
 		"""
-        assert isinstance(value, int), "Value must be an integer!"
-        """
-        The purpose of this class is to be only used inside of our red-black tree, as it will be automatically instanciated inside it's functions as needed, 
-        thus we assert that the node must have a parent. As a result of that choice, we won't be able to instanciate the class outside of the tree structure. 
-        
-        assert isinstance(parent, Node), "Parent must be a Node!"
-        """
+        assert isinstance(value, int), "Value must be an integer!"    
         assert color in colors, "Sorry, invalid color!"
         self.value  = value
         self.color  = color
         self.parent = parent
         self.left   = left
         self.right  = right
+
+    def __bool__(self):
+        """
+        Boolean verification.
+
+		Used to verify the boolean value held by the Node object, this special method will be used to assign a False boolean value to the "NIL_LEAF", as it's value wil also be False.
+        The goal of this implementation is to facilitate our verifications made in the beggining of every function inside the RedBlackTree().
+		Parameters
+		----------
+		self : Node
+			A Node object.
+		Returns
+		------
+		bool
+			The boolean value of the Node object, taking into account the aforementioned conditions.
+		"""
+        if self.value == False:
+            return False
+        return True
 
     def __repr__(self):
         """
@@ -62,7 +75,22 @@ class Node:
 		str
 			The representation of the Node object, containing the aforementioned characteristics.
 		"""
-        if self.left == self. and not self.right:
+        if not self.left and not self.right:
+            return f'Node has value {self.value} and is {self.color}.\nHas no chidren and {self.parent.value} as parent node.'
+        elif self.left and not self.right:
+            return f'Node has value {self.value} and is {self.color}.\nHas {self.left.value} as left child and {self.parent.value} as parent node.'
+        elif not self.left and self.right:
+            return f'Node has value {self.value} and is {self.color}.\nHas {self.right.value} as right child and {self.parent.value} as parent node.'
+        else:
+            return f'Node has value {self.value} and is {self.color}.\nHas two children, {self.left.value} and {self.right.value} as left and right child, respectively, and also {self.parent.value} as parent node.'
+        
+
+
+
+
+        """
+        # for python versions that don't accept fstrings.
+        if not self.left and not self.right:
             return 'Node has value {} and is {}.\nHas no chidren and {} as parent node.'.format(self.value, self.color, self.parent.value)
         elif self.left and not self.right:
             return 'Node has value {} and is {}.\nHas {} as left child and {} as parent node.'.format(self.value, self.color, self.left.value, self.parent.value)
@@ -70,4 +98,4 @@ class Node:
             return 'Node has value {} and is {}.\nHas {} as right child and {} as parent node.'.format(self.value, self.color, self.right.value, self.parent.value)
         else:
             return 'Node has value {} and is {}.\nHas two children, {} and {} as left and right child, respectively, and also {} as parent node.'.format(self.value, self.color, self.left.value, self.right.value, self.parent.value)
-
+        """
