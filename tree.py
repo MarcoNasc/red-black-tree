@@ -35,7 +35,7 @@ class RedBlackTree:
         self.root = self.NIL_LEAF
 
     def __repr__(self):
-        if self.root == self.NIL_LEAF:
+        if not self.root:
             return ''
         content = '\n'  # to hold final string
         cur_nodes = [self.root]  # all nodes at current level
@@ -63,11 +63,11 @@ class RedBlackTree:
                 if n.value:
                     buf = ' ' * int((5 - len(str(n.value))) / 2)
                     if n.color == RED:
-                        # cur_row += f"{buf}{RED, str(n.value)}{buf}" + sep
-                        cur_row += '%s%s%s'%(buf, RED+str(n.value),buf)+sep
+                        # cur_row += f"{buf}{RED[0], str(n.value)}{buf}" + sep
+                        cur_row += '{}{}{}'.format(buf, RED[0]+str(n.value), buf) + sep
                     elif n.color == BLACK:
-                        # cur_row += f"{buf}{BLACK, str(n.value)}{buf}" + sep
-                        cur_row+='%s%s%s'%(buf, BLACK+str(n.value),buf)+sep
+                        # cur_row += f"{buf}{BLACK[0], str(n.value)}{buf}" + sep
+                        cur_row+='{}{}{}'.format(buf, BLACK[0]+str(n.value), buf)+  sep
 
                 else:
                     cur_row += ' ' * 5 + sep
@@ -92,30 +92,31 @@ class RedBlackTree:
         return content
 
     def insert(self, value):
-        if self.root == self.NIL_LEAF:
+        if not self.root:
             self.root = Node(value, color=BLACK, parent=self.NIL_LEAF, left=self.NIL_LEAF, right=self.NIL_LEAF)
         else:
             self._insert(value, self.root)
 
     def _insert(self, value, parent_node):
+        
         if value < parent_node.value:
             if not parent_node.left:
                 parent_node.left = Node(value, color=RED, parent=parent_node, left=self.NIL_LEAF, right=self.NIL_LEAF)
-                self._rebalance_node(parent_node.left)
+                self._fixup_insertion(parent_node.left)
             else:
                 self._insert(value, parent_node.left)
 
         elif value > parent_node.value:
             if not parent_node.right:
                 parent_node.right = Node(value, color=RED, parent=parent_node, left=self.NIL_LEAF, right=self.NIL_LEAF)
-                self._rebalance_node(parent_node.left)
+                self._fixup_insertion(parent_node.right)
             else:
                 self._insert(value, parent_node.right)
 
         else:
-            raise ValueError('Value already in tree, try another one!')
+            raise ValueError('Value already in tree, try another one!')        
 
-    def _rebalance_node(self, node):  
+    def _fixup_insertion(self, node):  
             while node.parent.color == RED:
                 if node.parent == node.parent.parent.left:
                     y = node.parent.parent.right
@@ -124,13 +125,13 @@ class RedBlackTree:
                         y.color = BLACK                                     # case 1
                         node.parent.parent.color = RED                      # case 1
                         node = node.parent.parent                           # case 1
-                    elif node == node.parent.right:
+                    else:
+                        if node == node.parent.right:
                             node = node.parent                              # case 2
-                            _left_rotate(self, node)                        # case 2
-                    else:                                               
-                            node.parent.color = BLACK                       # case 3
-                            node.parent.parent.color = RED                  # case 3
-                            _right_rotate(self, node.parent.parent)         # case 3
+                            self._left_rotate(node)                         # case 2                                            
+                        node.parent.color = BLACK                           # case 3
+                        node.parent.parent.color = RED                      # case 3
+                        self._right_rotate(node.parent.parent)              # case 3
                 else: # same thing but with 'right' and 'left' exchanged
                     y = node.parent.parent.left
                     if y.color == RED:
@@ -138,14 +139,15 @@ class RedBlackTree:
                         y.color = BLACK                                     # case 1
                         node.parent.parent.color = RED                      # case 1
                         node = node.parent.parent                           # case 1
-                    elif node == node.parent.left:
+                    else:
+                        if node == node.parent.left:
                             node = node.parent                              # case 2
-                            _right_rotate(self, node)                       # case 2
-                    else:                    
-                            node.parent.color = BLACK                       # case 3
-                            node.parent.parent.color = RED                  # case 3
-                            _left_rotate(self, node.parent.parent)          # case 3
+                            self._right_rotate(node)                        # case 2
+                        node.parent.color = BLACK                           # case 3
+                        node.parent.parent.color = RED                      # case 3
+                        self._left_rotate(node.parent.parent)               # case 3
             self.root.color = BLACK
+            print(self)
 
     def remove(self, value):
         if self.root:
@@ -181,16 +183,16 @@ class RedBlackTree:
 
         # If the node's color is black, the function increments it's black_height.
         if cur_node.color == BLACK:
-            left_height=self._black_height(cur_node.left, cur_height + 1)
-            right_height=self._black_height(cur_node.right, cur_height + 1)
+            left_black_height=self._black_height(cur_node.left, cur_black_height + 1)
+            right_black_height=self._black_height(cur_node.right, cur_black_height + 1)
         # If the node's color is red, the function goes on to the next node without changing it's black_height.
         else:
-            left_height=self._black_height(cur_node.left, cur_height)
-            right_height=self._black_height(cur_node.right, cur_height)
+            left_black_height=self._black_height(cur_node.left, cur_black_height)
+            right_black_height=self._black_height(cur_node.right, cur_black_height)
         return max(left_black_height, right_black_height)
 
     def find(self, value):
-        if self.root != self.NIL_LEAF:
+        if self.root:
             return _find(value)
         else:
             raise ValueError('The tree is empty! Try again after inserting some values in it.')
@@ -222,13 +224,6 @@ class RedBlackTree:
             return self._search(value, cur_node)
         else:
             return False
-
-    def _inspect_insertion(self, cur_node, path=[]):
-        pass
-
-    def _inspect_removal(self, cur_node):
-        pass
-
     
 
     def _left_rotate(self, node):
@@ -264,5 +259,6 @@ class RedBlackTree:
         
 
 a = RedBlackTree()
-
+a.insert(20)
+a.insert(10)
 
