@@ -151,7 +151,7 @@ class RedBlackTree:
 
     def delete(self, value):
         if self.root:
-            return _delete(self.find(value))
+            return self._delete(self.find(value))
         else:
             raise ValueError('The tree is empty! Try again after inserting some values in it.')
 
@@ -302,18 +302,17 @@ class RedBlackTree:
 
     def find(self, value):
         if self.root:
-            return _find(value)
+            return self._find(value, self.root)
         else:
             raise ValueError('The tree is empty! Try again after inserting some values in it.')
 
-    def _find(self, value):
-        cur_node = self.root
+    def _find(self, value, cur_node):
         if value == cur_node.value:
             return cur_node
         elif value < cur_node.value and cur_node.left:
             return self._find(value, cur_node.left)
         elif value >  cur_node.value and cur_node.right:
-            return self._find(value, cur_node)
+            return self._find(value, cur_node.right)
         else:
             print('Sorry, value not found!')
 
@@ -337,9 +336,10 @@ class RedBlackTree:
     def _left_rotate(self, node):
         other_node = node.right
         node.right = other_node.left
-        if other_node.left != self.NIL_LEAF:
+        if other_node.left:
             other_node.left.parent = node
-        if node.parent == self.NIL_LEAF:
+        other_node.parent = node.parent
+        if not node.parent:
             self.root = other_node
         elif node == node.parent.left:
             node.parent.left = other_node
@@ -351,9 +351,10 @@ class RedBlackTree:
     def _right_rotate(self, node):
         other_node = node.left
         node.left = other_node.right
-        if other_node.right != self.NIL_LEAF:
+        if other_node.right:
             other_node.right.parent = node
-        if node.parent == self.NIL_LEAF:
+        other_node.parent = node.parent
+        if not node.parent:
             self.root = other_node
         elif node == node.parent.right:
             node.parent.right = other_node
