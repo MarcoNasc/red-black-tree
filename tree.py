@@ -115,31 +115,31 @@ class RedBlackTree:
                 if node.parent == node.parent.parent.left:
                     y = node.parent.parent.right
                     if y.color == RED:
-                        node.parent.color = BLACK                           # case 1
-                        y.color = BLACK                                     # case 1
-                        node.parent.parent.color = RED                      # case 1
-                        node = node.parent.parent                           # case 1
+                        node.parent.color = BLACK                           
+                        y.color = BLACK                                     
+                        node.parent.parent.color = RED                      
+                        node = node.parent.parent                           
                     else:
                         if node == node.parent.right:
-                            node = node.parent                              # case 2
-                            self._left_rotate(node)                         # case 2                                            
-                        node.parent.color = BLACK                           # case 3
-                        node.parent.parent.color = RED                      # case 3
-                        self._right_rotate(node.parent.parent)              # case 3
+                            node = node.parent                              
+                            self._left_rotate(node)                                                                    
+                        node.parent.color = BLACK                           
+                        node.parent.parent.color = RED                      
+                        self._right_rotate(node.parent.parent)              
                 else: # same thing but with 'right' and 'left' exchanged
                     y = node.parent.parent.left
                     if y.color == RED:
-                        node.parent.color = BLACK                           # case 1
-                        y.color = BLACK                                     # case 1
-                        node.parent.parent.color = RED                      # case 1
-                        node = node.parent.parent                           # case 1
+                        node.parent.color = BLACK                           
+                        y.color = BLACK                                     
+                        node.parent.parent.color = RED                      
+                        node = node.parent.parent                           
                     else:
                         if node == node.parent.left:
-                            node = node.parent                              # case 2
-                            self._right_rotate(node)                        # case 2
-                        node.parent.color = BLACK                           # case 3
-                        node.parent.parent.color = RED                      # case 3
-                        self._left_rotate(node.parent.parent)               # case 3
+                            node = node.parent                              
+                            self._right_rotate(node)                        
+                        node.parent.color = BLACK                           
+                        node.parent.parent.color = RED                      
+                        self._left_rotate(node.parent.parent)               
             self.root.color = BLACK
             print(self)
 
