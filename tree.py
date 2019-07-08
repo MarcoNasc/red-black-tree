@@ -8,12 +8,6 @@ from node import *
     
 class RedBlackTree:
     
-    # class DuplicateValueError(Exception):
-    #     '''Raise when a certain value is to be inserted, but is already in tree.'''
-    #     pass
-    # class ValueError(Exception):
-    #     '''Raise when any operation other than insertion is attempted, if the tree is empty'''
-    #     pass
     NIL_LEAF = Node(value=False, color=BLACK, parent=None)
 
     def __init__(self):
