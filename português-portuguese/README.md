@@ -1,2 +1,0 @@
-## Árvore Rubro-Negra
-###   Esse é o meu projeto final para a disciplina Projeto de Algoritmos I, equivalente a disciplina de Estruturas de Dados, na Universidade Federal do Pará. As opções eram ou aplicar uma das estruturas estudadas em sala de aula em algum pequeno projeto, ou implementar alguma estrurua mais complexa fora do conteúdo ministrado. Eu escolhi implementar, em Python, a estrutura conhecida como Árvore Rubro-Negra.
